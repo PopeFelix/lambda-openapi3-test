@@ -7,3 +7,4 @@ api/api-server.gen.go
 api/api-types.gen.go
 main
 *.zip
+lambda-openapi3-test

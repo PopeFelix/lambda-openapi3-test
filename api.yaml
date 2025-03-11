@@ -10,7 +10,8 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-
+security:
+  - ApiAuthPocAuthorizer: []
 # tags are used for organizing operations
 tags:
 - name: open
@@ -571,4 +572,15 @@ components:
       payloadFormatVersion: '1.0'
       uri:
         Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaOpenAPITestFunction.Arn}/invocations
-
+  securitySchemes:
+    ApiAuthPocAuthorizer:
+      type: "oauth2"
+      flows: {}
+      x-amazon-apigateway-authorizer:
+        identitySource: "$request.header.Authorization"
+        jwtConfiguration:
+          audience:
+            - Fn::Sub: ${pAuth0Audience}
+          issuer:
+            Fn::Sub: "https://${pAuth0Domain}/"
+        type: "jwt"

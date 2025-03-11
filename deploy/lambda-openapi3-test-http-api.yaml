@@ -5,6 +5,21 @@ Description: >
 
   SAM Template for simple application to demonstrate use of OpenAPI3 in go on Lambda.
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: lambda-openapi-test
+    Description: Testing OpenAPI 3 and API Gateway
+    Author: Aurelia Peters
+    SemanticVersion: "1.0.0"
+
+Parameters:
+  pAuth0Domain:
+    Type: String
+    Description: Auth0 authorization domain
+
+  pAuth0Audience:
+    Type: String
+    Description: Auth0 authorization audience
 Resources:
   LambdaOpenAPITestAPI:
     Type: AWS::Serverless::HttpApi
@@ -25,11 +40,13 @@ Resources:
 
   LambdaOpenAPITestFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
     Properties:
       # Replace <bucket> with your bucket name
       CodeUri: ./lambda-openapi3-test.zip
       Handler: lambda-openapi3-test
-      Runtime: go1.x
+      Runtime: provided.al2023
       Events:
         ProxyApiGreedy:
           Type: HttpApi
